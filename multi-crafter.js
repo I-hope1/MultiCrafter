@@ -95,7 +95,6 @@ window.newCrafter = function(name, array, rand, time, power){
 		}
 	}));
 	if(power) 工厂.consumes.power(power);
-	工厂.itemCapacity = 10;
 	工厂.craftTime = time || 30;
 	工厂.buildType = prov(() => extend(Building, {
 		'time':0, warmup:0,
