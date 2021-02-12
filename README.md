@@ -1,5 +1,5 @@
 # MultiCrafter
-## description
+## Description
 a js for Mindustry mod
 ## Example usage
 ### first
@@ -10,3 +10,5 @@ write "this.window = this" (if you already have it, you don't have to)
 write "require('multi-crafer')"
 ### at last
 write "newCrafer(xxx)"
+## Case
+open this url: <a url=""></a>
