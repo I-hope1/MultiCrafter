@@ -16,10 +16,10 @@ window.newCrafter = function(name, array, rand, time, power){
 				display(table){
 					table.row();
 					var table = table.table().padLeft(8).get(), size = 8 * 3;
-					arr.forEach(e => {
+					for(let e of arr){
 						let t = table.table().left().get();
 						table.row();
-						if(e.input.map(a => a[0].unlockedNow()).indexOf(false) == -1 && e.output.map(a => a[0].unlockedNow()).indexOf(false) == -1){
+						if(e.input.concat(e.output).concat(e.extraOutput || []).map(a => a[0].unlockedNow()).indexOf(false) == -1){
 							e.input.forEach((a, i) => t.left().add(a[0] instanceof Item ? ItemDisplay(a[0], a[1], true) : LiquidDisplay(a[0], a[1], true), Label(e.rdminput && i != e.input.length - 1 ? ' [lightgray]/ ' : '', Styles.techLabel)));
 	
 							t.add("[lightgray] -> ");
@@ -30,7 +30,7 @@ window.newCrafter = function(name, array, rand, time, power){
 								e.extraOutput.forEach(s => t.add((s[2] * 100) + '[gray]%') && t.add(ItemDisplay(s[0], s[1])));
 							}
 						}
-					});
+					};
 				}
 			}));
 		}
@@ -44,8 +44,8 @@ window.newCrafter = function(name, array, rand, time, power){
 	// 用Time.run是为了在json加载后加载
 	Time.run(1, run(() => [(() => {
 		let obj = window.ItemsAndLiquids = {};
-		Vars.content.items().toArray().forEach(item => obj['i' + item.name] = item);
-		Vars.content.liquids().toArray().forEach(liquid => obj['l' + liquid.name] = liquid);
+		for(let item of Vars.content.items().toArray()) obj['i' + item.name] = item;
+		for(let liquid of Vars.content.liquids().toArray()) obj['l' + liquid.name] = liquid;
 		if(arr.length == 0 && array instanceof Prov){
 			try{
 				let arr2 = array.get();
@@ -135,7 +135,7 @@ window.newCrafter = function(name, array, rand, time, power){
 			&& (arr.extraOutput == null || arr.extraOutput.map(e => this[getType(e[0]) + 's'].get(e[0]) + e[1] <= this.block[getType(e[0]) + 'Capacity']).indexOf(false) == -1);
 		},
 		consVaild(){
-			return arr.map(e => this.isVaild(e)).indexOf(true) != -1;
+			return arr.map(e => this.isVaild(e)).indexOf(true) != -1 && (this.power == null && this.power.status > 0);
 		},
 		updateTile(){
 			// 输出物品/液体
@@ -150,7 +150,7 @@ window.newCrafter = function(name, array, rand, time, power){
 			}
 
 			for(let e of arr){
-				if(this.time >= 1 && (this.power == null || this.power.status > 0) && this.isVaild(e)) continue;
+				if(this.time < 1 || !this.isVaild(e)) continue;
 				if(e.rdminput){
 					let arr = [];
 					e.input.forEach(a => this[getType(a[0]) + 's'].get(a[0]) >= a[1] && arr.push(a));
@@ -185,10 +185,12 @@ window.newCrafter = function(name, array, rand, time, power){
 		write(write){
 			this.super$write(write);
 			write.f(this.time);
+			write.f(this.warmup);
 		},
 		read(read, revision){
 			this.super$read(read, revision);
 			this.time = read.f();
+			this.warmup = read.f();
 		}
 	}));
 	return 工厂;
