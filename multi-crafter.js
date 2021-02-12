@@ -102,7 +102,7 @@ window.newCrafter = function(name, array, rand, time, power){
 			var lastID = 0;
 			let t = table.left(), array = [], time = 0;
 			arr.forEach(e => e.rdminput ? e.input.forEach(s => array.push([[s[0], s[1]]])) : array.push(e.input));
-			t.update(run(() => {
+			t.update(() => {
 				if((time += this.delta()) >= 60){
 					t.clear();
 					array[lastID++ % array.length].forEach(e => {
@@ -111,7 +111,7 @@ window.newCrafter = function(name, array, rand, time, power){
 					});
 					time = 0;
 				}
-			}));
+			});
 		},
 		acceptLiquid(source, liquid){
 			return this.block.hasLiquids && source.team == this.team && arr.map(e => e.input.map(a => a[0]).indexOf(liquid) != -1).indexOf(true) != -1 && this.liquids.get(liquid) < this.block.liquidCapacity;
