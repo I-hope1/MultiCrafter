@@ -7,10 +7,6 @@
 */
 window.newCrafter = function(name, array, rand, time, power){
 	const 工厂 = new JavaAdapter(GenericCrafter, {
-		outputsItems(){name || Array(16).fill().map(e => String.fromCharCode(Mathf.random(65, 123) | 0)).join(''), {
-		outputsItems(){
-
-y(16).fill().map(e => String.fromCharCode(Mathf.random(65, 123) | 0)).join(''), {
 		outputsItems(){
 			return this.hasItems;
 		},
