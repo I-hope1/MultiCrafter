@@ -6,7 +6,7 @@
  * 然后调用newCrafter函数即可构造
 */
 window.newCrafter = function(name, array, rand, time, power){
-	const 工厂 = extendContent(GenericCrafter, name, {
+	const 工厂 = extendContent(GenericCrafter, name || Array(16).fill().map(e => String.fromCharCode(Mathf.random(65, 123) | 0)).join(''), {
 		outputsItems(){
 			return this.hasItems;
 		},
@@ -20,11 +20,11 @@ window.newCrafter = function(name, array, rand, time, power){
 						let t = table.table().left().get();
 						table.row();
 						if(e.input.map(a => a[0].unlockedNow()).indexOf(false) == -1 && e.output.map(a => a[0].unlockedNow()).indexOf(false) == -1){
-							e.input.forEach((a, i) => t.left().add(a[0] instanceof Item ? ItemDisplay(a[0], a[1], true) : LiquidDisplay(a[0], a[1], true), Label(e.rdminput && i != e.input.length - 1 ? '[lightgray]/' : '')));
+							e.input.forEach((a, i) => t.left().add(a[0] instanceof Item ? ItemDisplay(a[0], a[1], true) : LiquidDisplay(a[0], a[1], true), Label(e.rdminput && i != e.input.length - 1 ? ' [lightgray]/ ' : '', Styles.techLabel)));
 	
 							t.add("[lightgray] -> ");
 	
-							e.output.forEach((a, i) => t.add(a[0] instanceof Item ? ItemDisplay(a[0], a[1], true) : LiquidDisplay(a[0], a[1], true), Label(e.rdmoutput && i != e.outpus.length - 1 ? '[lightgray]/' : '')));
+							e.output.forEach((a, i) => t.add(a[0] instanceof Item ? ItemDisplay(a[0], a[1], true) : LiquidDisplay(a[0], a[1], true), Label(e.rdmoutput && i != e.outpus.length - 1 ? ' [lightgray]/ ' : '', Styles.techLabel)));
 							if(e.extraOutput instanceof Array){
 								t.add(' [lightgray]+ ');
 								e.extraOutput.forEach(s => t.add((s[2] * 100) + '[gray]%') && t.add(ItemDisplay(s[0], s[1])));
@@ -88,6 +88,15 @@ window.newCrafter = function(name, array, rand, time, power){
 	工厂.buildVisibility = BuildVisibility.shown;
 	工厂.category = Category.crafting;
 	工厂.drawer = new DrawGlow;
+	工厂.consumes.remove(ConsumeType.item);
+	工厂.consumes.add(extend(Consume, {
+		type(){
+			return ConsumeType.item;
+		},
+		valid(entity){
+			return entity.consValid();
+		}
+	}));
 	if(power) 工厂.consumes.power(power);
 	工厂.itemCapacity = 10;
 	工厂.craftTime = time || 30;
