@@ -6,7 +6,11 @@
  * 然后调用newCrafter函数即可构造
 */
 window.newCrafter = function(name, array, rand, time, power){
-	const 工厂 = extendContent(GenericCrafter, name || Array(16).fill().map(e => String.fromCharCode(Mathf.random(65, 123) | 0)).join(''), {
+	const 工厂 = new JavaAdapter(GenericCrafter, {
+		outputsItems(){name || Array(16).fill().map(e => String.fromCharCode(Mathf.random(65, 123) | 0)).join(''), {
+		outputsItems(){
+
+y(16).fill().map(e => String.fromCharCode(Mathf.random(65, 123) | 0)).join(''), {
 		outputsItems(){
 			return this.hasItems;
 		},
@@ -34,9 +38,8 @@ window.newCrafter = function(name, array, rand, time, power){
 				}
 			}));
 		}
-	});
+	}, name || Arraname || Array(16).fill().map(e => String.fromCharCode(Mathf.random(65, 123) | 0)).join(''));
 
-	let temp = array;
 	const arr = array instanceof Array ? array : [];
 	const random = rand;
 
@@ -47,9 +50,9 @@ window.newCrafter = function(name, array, rand, time, power){
 		let obj = window.ItemsAndLiquids = {};
 		Vars.content.items().toArray().forEach(item => obj['i' + item.name] = item);
 		Vars.content.liquids().toArray().forEach(liquid => obj['l' + liquid.name] = liquid);
-		if(arr.length == 0 && temp instanceof Prov){
+		if(arr.length == 0 && array instanceof Prov){
 			try{
-				let arr2 = temp.get();
+				let arr2 = array.get();
 				for(let i of arr2){
 					arr.push(i);
 				}
