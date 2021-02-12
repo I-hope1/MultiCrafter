@@ -1,4 +1,5 @@
-# MultiCrafter
+## MultiCrafter
+# description
 a js for Mindustry mod
 # Example usage
 first, open your "main.js" in your mod
