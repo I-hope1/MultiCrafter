@@ -139,49 +139,48 @@ window.newCrafter = function(name, array, rand, time, power){
 		},
 		updateTile(){
 			// 输出物品/液体
-			arr.forEach(e => {
+			for(let e of arr){
 				e.output.forEach(items => this['dump' + (items[0] instanceof Item ? '' : 'Liquid')](items[0]));
 				if(e.extraOutput instanceof Array) e.extraOutput.forEach(s => this['dump' + (s[0] instanceof Item ? '' : 'Liquid')](s[0]));
-			});
+			}
 			if(!this.consVaild()) return this.warmup = Mathf.lerpDelta(this.warmup, 0, 0.02);
 			this.warmup = Mathf.lerpDelta(this.warmup, 1, 0.02);
 			if((this.time += this.getProgressIncrease(this.block.craftTime)) >= 1 && Mathf.chanceDelta(this.block.updateEffectChance)){
 				this.block.updateEffect.at(this.x + Mathf.range(this.block.size * 4), this.y + Mathf.range(this.block.size * 4));
 			}
 
-			arr.forEach(e => {
-				if(this.time >= 1 && (this.power == null || this.power.status > 0) && this.isVaild(e)){
-					if(e.rdminput){
-						let arr = [];
-						e.input.forEach(a => this[getType(a[0]) + 's'].get(a[0]) >= a[1] && arr.push(a));
-						let stack = arr[Mathf.random(arr.length) | 0];
-						this[getType(stack[0]) + 's'].remove(stack[0], stack[1]);
-					}else e.input.forEach(a => this[getType(a[0]) + 's'].remove(a[0], a[1]));
-					if(random){
-						let sum = 0, item = null, amount = 0;
-						e.output.forEach(a => sum += a[1]);
-						let rad = Mathf.random(sum);
-						for(let i = 0, len = e.output.length; i < len; i++){
-							let array = e.input[i];
-							if(sum + array[1] > rad){
-								item = array[0];
-								amount = array[1];
-								break;
-							}
-							sum += array[1];
+			for(let e of arr){
+				if(this.time >= 1 && (this.power == null || this.power.status > 0) && this.isVaild(e)) continue;
+				if(e.rdminput){
+					let arr = [];
+					e.input.forEach(a => this[getType(a[0]) + 's'].get(a[0]) >= a[1] && arr.push(a));
+					let stack = arr[Mathf.random(arr.length) | 0];
+					this[getType(stack[0]) + 's'].remove(stack[0], stack[1]);
+				}else e.input.forEach(a => this[getType(a[0]) + 's'].remove(a[0], a[1]));
+				if(random){
+					let sum = 0, item = null, amount = 0;
+					e.output.forEach(a => sum += a[1]);
+					let rad = Mathf.random(sum);
+					for(let i = 0, len = e.output.length; i < len; i++){
+						let array = e.input[i];
+						if(sum + array[1] > rad){
+							item = array[0];
+							amount = array[1];
+							break;
 						}
-						if(item != null){
-							this[getType(array[0]) + 's'].add(item, amount);
-						}
-					}else if(e.rdmoutput){
-						let array = e.output[Mathf.random(e.output.length)];
-						this[getType(array[0]) + 's'].add(array[0], array[1]);
-					}else e.output.forEach(a => this[getType(a[0]) + 's'].add(a[0], a[1]));
-					if(e.extraOutput instanceof Array) e.extraOutput.forEach(s => Math.random() < s[2] ? this[getType(s[0]) + 's'].add(s[0], s[1]) : '');
-					this.block.craftEffect.at(this.x, this.y);
-					this.time %= 1 / this.block.craftTime;
-				}
-			});
+						sum += array[1];
+					}
+					if(item != null){
+						this[getType(array[0]) + 's'].add(item, amount);
+					}
+				}else if(e.rdmoutput){
+					let array = e.output[Mathf.random(e.output.length)];
+					this[getType(array[0]) + 's'].add(array[0], array[1]);
+				}else e.output.forEach(a => this[getType(a[0]) + 's'].add(a[0], a[1]));
+				if(e.extraOutput instanceof Array) e.extraOutput.forEach(s => Math.random() < s[2] ? this[getType(s[0]) + 's'].add(s[0], s[1]) : '');
+				this.block.craftEffect.at(this.x, this.y);
+				this.time %= 1 / this.block.craftTime;
+			};
 		},
 		write(write){
 			this.super$write(write);
