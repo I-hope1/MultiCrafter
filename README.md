@@ -11,8 +11,8 @@ write "require('multi-crafer')"
 ### at last
 write "newCrafer(xxx)"
 ## Case
-<pre style='background-color:pink'>
-<code style='background-color:#ccf'>this</code>.window <b style='color:red'>=</b> <b style='color:sky'>this</b>;
+```js
+this.window = this;
 require('multi-crafer');
 newCrafter('case', /* name */ prov(() => [
 	{
@@ -29,6 +29,5 @@ newCrafter('case', /* name */ prov(() => [
 		output: [[Liquids.oil, 2]]
 	}
 ]), /* plan(s) */ false, /* random */ 30, /* craft time */ 10 /* consume power */);
-
-</pre>
+```
 open this url: <a href="https://github.com/I-hope1/MultiCrafter/raw/main/%E5%A4%9A%E5%90%88%E6%A1%88%E4%BE%8B1.3.zip">case</a>
