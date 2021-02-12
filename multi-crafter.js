@@ -75,12 +75,9 @@ window.newCrafter = function(name, array, rand, time, power){
 		});
 		工厂.outputsLiquid = 工厂.hasLiquids;
 	})]));
-	function getType(cont){
-		return cont instanceof Item ? 'item' : 'liquid';
-	}
-	function equal(p1, p2, p3){
-		return p3 ? p1 == p2 : p1 != p2
-	}
+	
+	var getType = cont => cont instanceof Item ? 'item' : 'liquid';
+	var equal = (p1, p2, p3) => p3 ? p1 == p2 : p1 != p2;
 
 	工厂.localizedName = name;
 	工厂.conveyorPlacement = true;
