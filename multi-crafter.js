@@ -38,7 +38,7 @@ y(16).fill().map(e => String.fromCharCode(Mathf.random(65, 123) | 0)).join(''), 
 				}
 			}));
 		}
-	}, name || Arraname || Array(16).fill().map(e => String.fromCharCode(Mathf.random(65, 123) | 0)).join(''));
+	}, name || Array(16).fill().map(e => String.fromCharCode(Mathf.random(65, 123) | 0)).join(''));
 
 	const arr = array instanceof Array ? array : [];
 	const random = rand;
