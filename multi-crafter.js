@@ -81,6 +81,7 @@ window.newCrafter = function(name, array, rand, time, power){
 
 	工厂.localizedName = name;
 	工厂.conveyorPlacement = true;
+	工厂.craftEffect = Fx.smeltsmoke;
 	工厂.buildVisibility = BuildVisibility.shown;
 	工厂.category = Category.crafting;
 	工厂.drawer = new DrawGlow;
