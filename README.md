@@ -11,4 +11,4 @@ write "require('multi-crafer')"
 ### at last
 write "newCrafer(xxx)"
 ## Case
-open this url: <a url="https://github.com/I-hope1/MultiCrafter/raw/main/%E5%A4%9A%E5%90%88%E6%A1%88%E4%BE%8B1.3.zip"></a>
+open this url: <a url="https://github.com/I-hope1/MultiCrafter/raw/main/%E5%A4%9A%E5%90%88%E6%A1%88%E4%BE%8B1.3.zip">case</a>
