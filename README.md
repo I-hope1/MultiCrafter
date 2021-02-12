@@ -12,7 +12,7 @@ write "require('multi-crafer')"
 write "newCrafer(xxx)"
 ## Case
 <div style='background-color:gray'>
-<b style='color:sky'>this<b>.window <b style='color:red'>=<b> <b style='color:sky'>this<b>;
+<b style='color:sky'>this</b>.window <b style='color:red'>=</b> <b style='color:sky'>this</b>;
 require('multi-crafer');
 newCrafter('case', /* name */ prov(() => [
 	{
