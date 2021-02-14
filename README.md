@@ -30,4 +30,4 @@ newCrafter('case', /* name */ prov(() => [
 	}
 ]), /* plan(s) */ false, /* random */ 30, /* craft time */ 10 /* consume power */);
 ```
-open this url: <a href="https://github.com/I-hope1/MultiCrafter/raw/main/%E5%A4%9A%E5%90%88%E6%A1%88%E4%BE%8B1.3.zip">case</a>
+<!--open this url: <a href="https://github.com/I-hope1/MultiCrafter/raw/main/%E5%A4%9A%E5%90%88%E6%A1%88%E4%BE%8B1.3.zip">case</a>-->
