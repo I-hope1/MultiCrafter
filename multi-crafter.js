@@ -61,18 +61,19 @@ window.newCrafter = function(name, array, rand, time, power){
 		/* 注意:random与输出不能同为true */
 		if(e.rdmoutput && random) return Vars.ui.showErrorMessage('[red]Error: []random与rdmoutput同为true');
 		// 将“物品”变成“[物品, 1]”
+		let fun = cont => 工厂['has' + (cont instanceof Item ? 'Items' : 'Liquids')] = true; // 封装确定是否有物品/液体的函数
 		e.input.forEach((s, i) => {
 			if(e.input[i] instanceof Content) e.input[i] = [e.input[i], 1];
-			工厂['has' + (e.input[i][0] instanceof Item ? 'Items' : 'Liquids')] = true; // 确定是否有物品/液体
+			fun(e.input[i][0]);
 		});
 		e.output.forEach((s, i) => {
 			if(e.output[i] instanceof Content) e.output[i] = [e.output[i], 1];
-			工厂['has' + (e.output[i][0] instanceof Item ? 'Items' : 'Liquids')] = true; // 确定是否有物品/液体
+			fun(e.output[i][0]);
 		});
 		if(e.extraOutput instanceof Array) e.extraOutput.forEach((s, i) => {
 			if(s instanceof Content) e.extraOutput[i] = [s, 1, .5];
 			s[2] = s[2] || .5;
-			工厂['has' + (e.extraOutput[i][0] instanceof Item ? 'Items' : 'Liquids')] = true; // 确定是否有物品/液体
+			fun(e.extraOutput[i][0]);
 		});
 		工厂.outputsLiquid = 工厂.hasLiquids;
 	})]));
