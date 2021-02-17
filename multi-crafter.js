@@ -126,6 +126,7 @@ window.newCrafter = function(name, array, rand, time, power){
 		draw(){
 			this.super$draw();
 			//Draw.rect(this.block.name + '-rotator', this.x, this.y, this.time / this.block.craftTime * 360);
+			if(this.block.drawer.top == Core.atlas.find('error')) return;
 			Draw.alpha(Mathf.absin(this.time, 9, .3) * this.warmup);
 			Draw.rect(this.block.drawer.top, this.x, this.y);
 			Draw.reset();
