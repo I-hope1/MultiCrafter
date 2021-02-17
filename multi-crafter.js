@@ -179,7 +179,7 @@ window.newCrafter = function(name, array, rand, time, power){
 						this[getType(array[0]) + 's'].add(item, amount);
 					}
 				}else if(e.rdmoutput){
-					let array = e.output[Mathf.random(e.output.length)];
+					let array = e.output[Mathf.random(e.output.length) | 0];
 					this[getType(array[0]) + 's'].add(array[0], array[1]);
 				}else e.output.forEach(a => this[getType(a[0]) + 's'].add(a[0], a[1]));
 				if(e.extraOutput instanceof Array) e.extraOutput.forEach(s => Math.random() < s[2] ? this[getType(s[0]) + 's'].add(s[0], s[1]) : '');
