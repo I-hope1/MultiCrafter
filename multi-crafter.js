@@ -150,8 +150,9 @@ window.newCrafter = function(name, array, rand, time, power){
 				this.block.updateEffect.at(this.x + Mathf.range(this.block.size * 4), this.y + Mathf.range(this.block.size * 4));
 			}
 
+			if(this.time < 1) return;
 			for(let e of arr){
-				if(this.time < 1 || !this._isVaild(e)) continue;
+				if(!this._isVaild(e)) continue;
 				if(e.rdminput){
 					let arr = [];
 					e.input.forEach(a => this[getType(a[0]) + 's'].get(a[0]) >= a[1] && arr.push(a));
@@ -181,6 +182,7 @@ window.newCrafter = function(name, array, rand, time, power){
 				if(e.extraOutput instanceof Array) e.extraOutput.forEach(s => Math.random() < s[2] ? this[getType(s[0]) + 's'].add(s[0], s[1]) : '');
 				this.block.craftEffect.at(this.x, this.y);
 				this.time %= 1 / this.block.craftTime;
+				break;
 			};
 		},
 		write(write){
