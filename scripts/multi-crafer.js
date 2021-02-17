@@ -1,4 +1,3 @@
-
 // 作者: I hope...
 // 未经允许禁止删除注释!
 // 内置 “newCrafter函数” 和 “一个ItemsAndLiquids对象(只能在prov时才可使用，i开头为物品，l开头为液体)”
