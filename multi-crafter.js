@@ -165,6 +165,7 @@ window.newCrafter = function(name, array, rand, time, power){
 					let sum = 0, item = null, amount = 0;
 					e.output.forEach(a => sum += a[1]);
 					let rad = Mathf.random(sum);
+					sum = 0;
 					for(let i = 0, len = e.output.length; i < len; i++){
 						let array = e.input[i];
 						if(sum + array[1] > rad){
