@@ -138,7 +138,7 @@ window.newCrafter = function(name, array, rand, time, power){
 			&& (arr.extraOutput == null || arr.extraOutput.map(e => this[getType(e[0]) + 's'].get(e[0]) + e[1] <= this.block[getType(e[0]) + 'Capacity']).indexOf(false) == -1);
 		},
 		consVaild(){
-			return arr.map(e => this._isVaild(e)).indexOf(true) != -1 && (this.power == null && this.power.status > 0);
+			return arr.map(e => this._isVaild(e)).indexOf(true) != -1 && (this.power == null || this.power.status > 0);
 		},
 		updateTile(){
 			// 输出物品/液体
