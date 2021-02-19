@@ -1,3 +1,4 @@
+
 // 作者: I hope...
 // 未经允许禁止删除注释!
 // 内置 “newCrafter函数” 和 “一个ItemsAndLiquids对象(只能在prov时才可使用，i开头为物品，l开头为液体)”
@@ -60,18 +61,19 @@ window.newCrafter = function(name, array, rand, time, power){
 		/* 注意:random与输出不能同为true */
 		if(e.rdmoutput && random) return Vars.ui.showErrorMessage('[red]Error: []random与rdmoutput同为true');
 		// 将“物品”变成“[物品, 1]”
+		let fun = cont => 工厂['has' + (cont instanceof Item ? 'Items' : 'Liquids')] = true; // 封装确定是否有物品/液体的函数
 		e.input.forEach((s, i) => {
 			if(e.input[i] instanceof Content) e.input[i] = [e.input[i], 1];
-			工厂['has' + (e.input[i][0] instanceof Item ? 'Items' : 'Liquids')] = true; // 确定是否有物品/液体
+			fun(e.input[i][0]);
 		});
 		e.output.forEach((s, i) => {
 			if(e.output[i] instanceof Content) e.output[i] = [e.output[i], 1];
-			工厂['has' + (e.output[i][0] instanceof Item ? 'Items' : 'Liquids')] = true; // 确定是否有物品/液体
+			fun(e.output[i][0]);
 		});
 		if(e.extraOutput instanceof Array) e.extraOutput.forEach((s, i) => {
 			if(s instanceof Content) e.extraOutput[i] = [s, 1, .5];
 			s[2] = s[2] || .5;
-			工厂['has' + (e.extraOutput[i][0] instanceof Item ? 'Items' : 'Liquids')] = true; // 确定是否有物品/液体
+			fun(e.extraOutput[i][0]);
 		});
 		工厂.outputsLiquid = 工厂.hasLiquids;
 	})]));
@@ -125,6 +127,7 @@ window.newCrafter = function(name, array, rand, time, power){
 		draw(){
 			this.super$draw();
 			//Draw.rect(this.block.name + '-rotator', this.x, this.y, this.time / this.block.craftTime * 360);
+			if(this.block.drawer.top == Core.atlas.find('error')) return;
 			Draw.alpha(Mathf.absin(this.time, 9, .3) * this.warmup);
 			Draw.rect(this.block.drawer.top, this.x, this.y);
 			Draw.reset();
@@ -135,7 +138,7 @@ window.newCrafter = function(name, array, rand, time, power){
 			&& (arr.extraOutput == null || arr.extraOutput.map(e => this[getType(e[0]) + 's'].get(e[0]) + e[1] <= this.block[getType(e[0]) + 'Capacity']).indexOf(false) == -1);
 		},
 		consVaild(){
-			return arr.map(e => this._isVaild(e)).indexOf(true) != -1 && (this.power == null && this.power.status > 0);
+			return arr.map(e => this._isVaild(e)).indexOf(true) != -1 && (this.power == null || this.power.status > 0);
 		},
 		updateTile(){
 			// 输出物品/液体
@@ -149,8 +152,9 @@ window.newCrafter = function(name, array, rand, time, power){
 				this.block.updateEffect.at(this.x + Mathf.range(this.block.size * 4), this.y + Mathf.range(this.block.size * 4));
 			}
 
+			if(this.time < 1) return;
 			for(let e of arr){
-				if(this.time < 1 || !this._isVaild(e)) continue;
+				if(!this._isVaild(e)) continue;
 				if(e.rdminput){
 					let arr = [];
 					e.input.forEach(a => this[getType(a[0]) + 's'].get(a[0]) >= a[1] && arr.push(a));
@@ -161,6 +165,7 @@ window.newCrafter = function(name, array, rand, time, power){
 					let sum = 0, item = null, amount = 0;
 					e.output.forEach(a => sum += a[1]);
 					let rad = Mathf.random(sum);
+					sum = 0;
 					for(let i = 0, len = e.output.length; i < len; i++){
 						let array = e.input[i];
 						if(sum + array[1] > rad){
@@ -174,12 +179,13 @@ window.newCrafter = function(name, array, rand, time, power){
 						this[getType(array[0]) + 's'].add(item, amount);
 					}
 				}else if(e.rdmoutput){
-					let array = e.output[Mathf.random(e.output.length)];
+					let array = e.output[Mathf.random(e.output.length) | 0];
 					this[getType(array[0]) + 's'].add(array[0], array[1]);
 				}else e.output.forEach(a => this[getType(a[0]) + 's'].add(a[0], a[1]));
 				if(e.extraOutput instanceof Array) e.extraOutput.forEach(s => Math.random() < s[2] ? this[getType(s[0]) + 's'].add(s[0], s[1]) : '');
 				this.block.craftEffect.at(this.x, this.y);
 				this.time %= 1 / this.block.craftTime;
+				break;
 			};
 		},
 		write(write){
